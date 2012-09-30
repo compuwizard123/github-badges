@@ -1,5 +1,3 @@
-dist/*
-website/dist/*
 pkg/*
 config/*.yml
 .DS_Store
