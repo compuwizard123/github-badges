@@ -75,7 +75,7 @@ GitHubBadge.requestUserInfo = function(username) {
   //GitHubBadge.Launcher.requestContent(
   //    "http://github.com/api/v1/json/" + username + "?callback=GitHubBadge.loadUserInfo");
     GitHubBadge.Launcher.requestContent(
-        "https://api.github.com/users/" + username + "/repos/?callback=GitHubBadge.loadUserInfo");
+        "https://api.github.com/users/" + username + "/repos?callback=GitHubBadge.loadUserInfo");
 };
 
 (function($){
