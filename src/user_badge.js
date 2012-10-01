@@ -25,13 +25,13 @@ GitHubBadge.loadUserInfo = function(data) {
       .empty()
       .append(list);
     list = list.find('ul');
-    orderedRepos = data.sort(function(repo1, repo2) {
+    orderedRepos = data.data.sort(function(repo1, repo2) {
       var properties = ['network', 'watched'];
       for (var i=0; i < properties.length; i++) {
         var comparison = GitHubBadge.compareReposProperty(repo1, repo2, properties[i]);
         if (comparison != 0) return comparison;
       };
-      return data.indexOf(repo2) - data.indexOf(repo1);
+      return data.data.indexOf(repo2) - data.data.indexOf(repo1);
     })
     $.each(orderedRepos, function(index) {
       list.append(template, this);
