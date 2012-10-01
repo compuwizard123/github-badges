@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>JavaScript unit test file</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="../assets/jsunittest.js" type="text/javascript"></script>
+  <script src="../../src/ext/jquery.js"></script>
+  <script src="../../src/ext/jquery.template.js"></script>
+  <script src="../../src/github-badge-launcher.js"></script>
+  <script src="../../src/user_badge.js" type="text/javascript"></script>
+  <script src="../fixtures/mocked_user_data.js"></script>
+  
+  <link rel="stylesheet" href="../../src/ext/stylesheets/badge.css" type="text/css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="../assets/unittest.css" type="text/css" />
+</head>
+<body>
+
+<div id="content">
+
+  <div id="header">
+    <h1>JavaScript unit test file</h1>
+    <p>
+      This file tests <strong>user_badge.js</strong>.
+    </p>
+  </div>
+
+  <!-- Log output (one per Runner, via {testLog: "testlog"} option)-->
+  <div id="testlog"></div>
+  
+  <div id="testlog-showdata"></div>
+  
+  <div id="errorlog"></div>
+  
+  <!-- Put sample/test html here -->
+  <div id="sample">
+    <div id="github-badge">
+      
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+// <![CDATA[
+  new Test.Unit.Runner({
+    setup: function() {
+      GitHubBadge.buildUserBadge("drnic");
+      this.badge = $('div#github-badge');
+    },
+    
+    "test that header displayed": function() { with(this) {
+      var header = badge.find('.header');
+      assertEqual(1, header.size());
+      assertEqual('My projects', header.find('span.title').html());
+      username_link = header.find('a');
+      assertEqual("drnic", username_link.html());
+      assertEqual("http://github.com/drnic", username_link.attr('href'));
+    }},
+    
+    "test that footer displayed": function() { with(this) {
+      assertEqual(1, badge.find('.footer').size());
+      var expected = '<a href="http://drnic.github.com/github-badges">GitHub Badge</a> | Written by <a href="http://drnicwilliams.com">Dr Nic</a>';
+      assertEqual(expected, $('div#github-badge .footer').html());
+    }}
+  }, {testLog: "testlog"}); 
+
+  new Test.Unit.Runner({
+    setup: function() {
+      GitHubBadge.buildUserBadge("drnic");
+      this.badge = $('div#github-badge');
+      GitHubBadge.loadUserInfo(GitHubBadge.mockedUserData);
+    },
+    
+    teardown: function() {
+      window.GITHUB_LIST_LENGTH = 10;
+    },
+    
+    "test that popular projects displayed first, and the rest displayed in reverse order": function() { with(this) {
+      var projects = badge.find('.repos ul#repo_listing li a');
+      assert(projects.size() > 0, 'Should be some projects');
+      assertEqual(10, badge.find('.body li:visible').size());
+      assertEqual("ruby-on-rails-tmbundle", projects.filter(':eq(0)').html());
+      assertEqual("javascript-unittest-tmbundle", projects.filter(':eq(1)').html());
+      assertEqual("newjs", projects.filter(':eq(2)').html());
+      // the rest should be reversed
+      assertEqual("hobo", projects.filter(':eq(3)').html());
+      assertEqual("rspec_on_rails_nested_scaffold", projects.filter(':eq(4)').html());
+    }},
+
+    "test that 'show remaining' unhides remaining projects": function() { with(this) {
+      var link = $('#github-badge a.more');
+      assertEqual(1, link.size());
+      assertEqual(10, badge.find('.body li:visible').size());
+      link.click();
+      assertEqual(badge.find('.body li').size(), badge.find('.body li:visible').size());
+    }},
+
+    
+    "test that only 5 items are shown (GITHUB_LIST_LENGTH)": function() { with(this) {
+      window.GITHUB_LIST_LENGTH = 5;
+      GitHubBadge.loadUserInfo(GitHubBadge.mockedUserData);
+      assertEqual(5, $('div#github-badge .body li:visible').size());
+    }},
+    
+    "test that 'Show more' link includes total project count": function() { with(this) {
+      assertEqual(1, badge.find('.more').size(), 'Missing "Show all" link');
+      assertEqual('Show all (32)', badge.find('.more').html());
+    }},
+
+    
+    "test that no 'Show more' link if no extra items to show": function() { with(this) {
+      GitHubBadge.loadUserInfo(GitHubBadge.smallMockedUserData);
+      assertEqual(0, $('.more').size(), 'No need for "Show all" link');
+    }},
+
+    "test that clicking an item toggles it to show description of project": function() { with(this) {
+      var item = badge.find('li:first');
+      assert(item.is('.clickable'));
+      var description = item.find('.description');
+      assertEqual(1, description.size(), 'Should be a project description');
+      assert(description.is(':hidden'), 'No description should be shown');
+      item.click();
+      assert(!description.is(':hidden'), 'Description should be shown');
+      item.click();
+      assert(description.is(':hidden'), 'No description should be shown');
+    }},
+
+    "test that widget looks nice": function() { with(this) {
+      info("Doing nothing so tester/dev can play with widget after all tests run");
+    }},
+  }, {testLog: "testlog-showdata"}); 
+  // For each Test.UnitRunner instance, specify the element id where results will be
+  // published; e.g. <div id="testlog"/> above.
+  // That is, you can have multiple "new Test.Unit.Runner() { ... }" on this page, just
+  // create more <div id="testlog2"></div> etc, and pass the element id to the hash above:
+  // e.g. {testLog: "testlog2"}
+// ]]>
+</script>
+</body>
+</html>

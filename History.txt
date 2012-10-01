@@ -1,0 +1,38 @@
+== 1.2.4 2010-03-04
+
+* if jquery is already installed the badge now works (was using the wrong $.getScript call for a callback)
+
+== 1.2.3 2009-01-04
+
+* Shortened footer message
+* Moved website to github pages: http://drnic.github.com/github-badges
+
+== 1.2.2 2008-05-07
+* Added GITHUB_TITLE and GITHUB_SHOW_ALL options.
+
+== 1.2.1 2008-05-07
+
+* 'Show more' -> 'Show all (n)'
+
+== 1.2.0 2008-05-06
+
+* Alternate theme: black_badge.js - automatically attempts to detect
+  black or near-black backgrounds and uses alternate CSS; OR - use GITHUB_THEME='black'
+
+== 1.1.0 2008-05-05
+
+* Project description is displayed/hidden when clicking an item
+
+== 1.0.2 2008-05-04
+
+* Apply "background: none" to #github-badge li css to override anything from target's css.
+* Apply "font: black"
+
+== 1.0.1 2008-05-03
+
+* Hide 'Show more' link if no extra items to show
+
+== 1.0.0 2008-04-26
+
+* 1 major enhancement:
+  * Initial release
