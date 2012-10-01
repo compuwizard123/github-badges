@@ -25,13 +25,13 @@ GitHubBadge.loadUserInfo = function(data) {
       .empty()
       .append(list);
     list = list.find('ul');
-    orderedRepos = data.user.repositories.sort(function(repo1, repo2) {
+    orderedRepos = data.sort(function(repo1, repo2) {
       var properties = ['network', 'watched'];
       for (var i=0; i < properties.length; i++) {
         var comparison = GitHubBadge.compareReposProperty(repo1, repo2, properties[i]);
         if (comparison != 0) return comparison;
       };
-      return data.user.repositories.indexOf(repo2) - data.user.repositories.indexOf(repo1);
+      return data.indexOf(repo2) - data.indexOf(repo1);
     })
     $.each(orderedRepos, function(index) {
       list.append(template, this);
@@ -72,8 +72,6 @@ GitHubBadge.compareReposProperty = function(repo1, repo2, property) {
 
 
 GitHubBadge.requestUserInfo = function(username) {
-  //GitHubBadge.Launcher.requestContent(
-  //    "http://github.com/api/v1/json/" + username + "?callback=GitHubBadge.loadUserInfo");
     GitHubBadge.Launcher.requestContent(
         "https://api.github.com/users/" + username + "/repos?callback=GitHubBadge.loadUserInfo");
 };
