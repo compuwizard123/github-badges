@@ -15,7 +15,7 @@ GitHubBadge.loadUserInfo = function(data) {
   (function($){
     var template = $.template(
       "<li class='public clickable'>"
-      +  "<img src='http://github.com/images/icons/public.png' alt='public' title='${description}'>"
+      +  "<img src='http://compuwizard123.github.com/github-badges/dist/icons/public.png' alt='public' title='${description}'>"
       +  "<strong><a href='${url}' title='${description}' target='_blank'>${name}</a></strong>"
       +  "<div class='description'>${description}</div>"
       +"</li>"
